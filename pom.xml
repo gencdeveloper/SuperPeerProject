@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>SuperPeer</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+   <dependencies>
+       <dependency>
+           <!--Selenium for browser api's-->
+           <groupId>org.seleniumhq.selenium</groupId>
+           <artifactId>selenium-java</artifactId>
+           <version>3.141.59</version>
+       </dependency>
+       <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+       <dependency>
+           <groupId>org.testng</groupId>
+           <artifactId>testng</artifactId>
+           <version>7.1.0</version>
+           <scope>test</scope>
+       </dependency>
+
+       <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+       <dependency>
+           <groupId>com.aventstack</groupId>
+           <artifactId>extentreports</artifactId>
+           <version>4.0.9</version>
+       </dependency>
+       <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+       <dependency>
+
+           <groupId>io.github.bonigarcia</groupId>
+           <artifactId>webdrivermanager</artifactId>
+           <version>4.1.0</version>
+       </dependency>
+
+       <!--Note: Make sure the versions on Cucumber-java, Cucumber -junit and Cucumber-core are the same, i.e.,
+       if you are using Cucumber-java-1.2.5 make sure the versions of the other two dependencies are the same.-->
+
+       <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+       <dependency>
+           <!--Cucumber-jvm for writing test scenarios
+           executable specification using cucumber-jvm.
+           yani yazdigin gherking languagi koda cevirmeye yariyor-->
+           <groupId>io.cucumber</groupId>
+           <artifactId>cucumber-java</artifactId>
+           <version>5.7.0</version>
+       </dependency>
+
+       <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+       <dependency>
+           <!--JUnit for doing assertions-->
+           <groupId>io.cucumber</groupId>
+           <artifactId>cucumber-junit</artifactId>
+           <version>5.7.0</version>
+           <scope>test</scope>
+       </dependency>
+   </dependencies>
+
+       <build>
+           <!-- First plugin responsible: executing CukesRunner file  -->
+           <plugins>
+               <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-surefire-plugin</artifactId>
+                   <version>2.22.2</version>
+                   <configuration>
+                       <testFailureIgnore>true</testFailureIgnore>
+                       <runOrder>Alphabetical</runOrder>
+                       <includes>
+                           <include>**/*CukesRunner.java</include>
+                           <include>**/*FailedTestRunner.java</include>
+                       </includes>
+                   </configuration>
+               </plugin>
+               <!-- Second plugin responsible:reading json file ="cucumber*.json" -->
+               <plugin>
+                   <groupId>net.masterthought</groupId>
+                   <artifactId>maven-cucumber-reporting</artifactId>
+                   <version>5.0.0</version>
+                   <executions>
+                       <execution>
+                           <id>execution</id>
+                           <phase>verify</phase>
+                           <goals>
+                               <goal>generate</goal>
+                           </goals>
+                           <configuration>
+                               <projectName>Cucumber HTML Reports</projectName>
+                               <outputDirectory>${project.build.directory}</outputDirectory>
+                               <inputDirectory>${project.build.directory}</inputDirectory>
+                               <jsonFiles>
+                                   <param>**/cucumber*.json</param>
+                               </jsonFiles>
+                           </configuration>
+                       </execution>
+                   </executions>
+               </plugin>
+           </plugins>
+       </build>
+</project>
